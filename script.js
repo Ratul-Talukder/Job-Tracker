@@ -41,3 +41,74 @@ tabs.forEach(tab => {
 
     });
 });
+
+//InterView-btn Click
+const interviewButton = document.querySelectorAll(".interview-btn");
+
+interviewButton.forEach(btn => {
+    btn.addEventListener("click", function () {
+        this.parentNode.parentNode.style.borderLeft = "4px solid green";
+        const jobCard = this.closest(".job-card");
+
+        const badge = jobCard.querySelector(".badge");
+
+        const cntOfInterviews = document.getElementById("interview-cnt");
+        const cntOfRejects = document.getElementById("reject-cnt");
+
+        let value = Number(cntOfInterviews.innerText);
+        if (badge.innerText !== "INTERVIEW") {
+            cntOfInterviews.innerText = value + 1;
+            value = Number(cntOfRejects.innerText);
+            if (badge.innerText === "REJECTED") cntOfRejects.innerText = value - 1;
+        }
+        
+
+        badge.innerText = "INTERVIEW";
+
+        badge.classList.remove("badge-primary","badge-soft");
+        badge.classList.add("badge-success");
+
+        badge.classList.remove("text-[#002C5C]","font-semibold");
+        badge.classList.add("text-green-1200","font-bold","bg-green-500/20");
+
+    });
+});
+
+//Reject-btn Click
+const rejectButton = document.querySelectorAll(".reject-btn");
+
+rejectButton.forEach(btn => {
+    btn.addEventListener("click", function () {
+        this.parentNode.parentNode.style.borderLeft = "4px solid red";
+
+        const jobCard = this.closest(".job-card");
+
+        const badge = jobCard.querySelector(".badge");
+
+        const cntOfInterviews = document.getElementById("interview-cnt");
+        const cntOfRejects = document.getElementById("reject-cnt");
+
+        let value = Number(cntOfRejects.innerText);
+        if (badge.innerText !== "REJECTED") {
+            cntOfRejects.innerText = value + 1;
+            value = Number(cntOfInterviews.innerText);
+            if (badge.innerText === "INTERVIEW") cntOfInterviews.innerText = value - 1;
+
+        }
+        badge.innerText = "REJECTED";
+
+        badge.classList.remove("badge-primary","badge-soft");
+        badge.classList.add("badge-error");
+
+        badge.classList.remove("text-[#002C5C]","font-semibold");
+        badge.classList.add("text-red-1200","font-bold","bg-red-500/20");
+
+    });
+});
+
+
+        //   <button
+        //       class="bg-[#EEF4FF] rounded-md py-2 px-3 mb-1 text-[#002C5C] font-semibold"
+        //     >
+        //       NOT APPLIED
+        //     </button>
