@@ -8,6 +8,18 @@ jobContainer.addEventListener("click", function (e) {
     if (deleteButton) {
 
         const jobCard = deleteButton.closest(".job-card");
+        const color = jobCard.style.borderLeftColor;
+
+        if (color === "green") {
+            const cntOfInterviews = document.getElementById("interview-cnt");
+            let value = Number(cntOfInterviews.innerText);
+            cntOfInterviews.innerText = value - 1;
+        }
+        else if (color === "red") {
+            const cntOfRejects = document.getElementById("reject-cnt");
+            let value = Number(cntOfRejects.innerText);
+            cntOfRejects.innerText = value - 1;
+        }
 
         jobCard.remove();
 
@@ -15,7 +27,13 @@ jobContainer.addEventListener("click", function (e) {
         
         for (let curJobs of availableJobs) {
             let value = Number(curJobs.innerText);
-            curJobs.innerText = value - 1;
+            value -= 1;
+            curJobs.innerText = value;
+            if (value === 0) {
+                const noJobAvailable = document.getElementById("no-job-available");
+                noJobAvailable.classList.remove("hidden");
+                noJobAvailable.classList.add("flex");
+            }
         }
     }
 });
@@ -38,6 +56,27 @@ tabs.forEach(tab => {
         this.classList.add("tab-active", "btn-primary");
 
         this.classList.remove("hover:text-blue-600");
+
+        if (this.innerText === "Interview") {
+            const cnt = document.getElementById("interview-cnt");
+            if (cnt.innerText === "0") {
+                const jobContainer = document.getElementById("job-container");
+                jobContainer.classList.add("hidden");
+                const noJobAvailable = document.getElementById("no-job-available");
+                noJobAvailable.classList.remove("hidden");
+                noJobAvailable.classList.add("flex");
+            }
+        }
+        else if (this.innerText === "Rejected") {
+            const cnt = document.getElementById("reject-cnt");
+            if (cnt.innerText === "0") {
+                const jobContainer = document.getElementById("job-container");
+                jobContainer.classList.add("hidden");
+                const noJobAvailable = document.getElementById("no-job-available");
+                noJobAvailable.classList.remove("hidden");
+                noJobAvailable.classList.add("flex");
+            }
+        }
 
     });
 });
@@ -106,9 +145,3 @@ rejectButton.forEach(btn => {
     });
 });
 
-
-        //   <button
-        //       class="bg-[#EEF4FF] rounded-md py-2 px-3 mb-1 text-[#002C5C] font-semibold"
-        //     >
-        //       NOT APPLIED
-        //     </button>
