@@ -59,6 +59,30 @@ tabs.forEach(tab => {
 
         if (this.innerText === "Interview") {
             const cnt = document.getElementById("interview-cnt");
+            const numberOfJobs = document.getElementById("numberOfJobs");
+            const availableJobs = document.getElementById("available-jobs-number");
+            numberOfJobs.innerText = cnt.innerText + " of " + availableJobs.innerText + " jobs";
+
+            const jobContainer = document.getElementById("job-container");
+            jobContainer.classList.add("hidden");
+
+            if (cnt.innerText === "0") {
+                const noJobAvailable = document.getElementById("no-job-available");
+                noJobAvailable.classList.remove("hidden");
+                noJobAvailable.classList.add("flex");
+            }
+            else {
+                const interviewJobContainer = document.getElementById("interview-job-container");
+                interviewJobContainer.classList.remove("hidden");
+            }
+        }
+        else if (this.innerText === "Rejected") {
+            const cnt = document.getElementById("reject-cnt");
+
+            const numberOfJobs = document.getElementById("numberOfJobs");
+            const availableJobs = document.getElementById("available-jobs-number");
+            numberOfJobs.innerText = cnt.innerText + " of " + availableJobs.innerText + " jobs";
+
             if (cnt.innerText === "0") {
                 const jobContainer = document.getElementById("job-container");
                 jobContainer.classList.add("hidden");
@@ -67,26 +91,43 @@ tabs.forEach(tab => {
                 noJobAvailable.classList.add("flex");
             }
         }
-        else if (this.innerText === "Rejected") {
-            const cnt = document.getElementById("reject-cnt");
-            if (cnt.innerText === "0") {
+        else {
+            const availableJobs = document.getElementById("available-jobs-number");
+            const numberOfJobs = document.getElementById("numberOfJobs");
+            numberOfJobs.innerText = availableJobs.innerText + " jobs";
+            if (availableJobs.innerText !== "0") {
                 const jobContainer = document.getElementById("job-container");
-                jobContainer.classList.add("hidden");
+                jobContainer.classList.remove("hidden");
+
                 const noJobAvailable = document.getElementById("no-job-available");
-                noJobAvailable.classList.remove("hidden");
-                noJobAvailable.classList.add("flex");
+                noJobAvailable.classList.add("hidden");
+                
             }
         }
 
     });
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 //InterView-btn Click
 const interviewButton = document.querySelectorAll(".interview-btn");
 
 interviewButton.forEach(btn => {
     btn.addEventListener("click", function () {
-        this.parentNode.parentNode.style.borderLeft = "4px solid green";
+        const parentNode = this.parentNode.parentNode;
+        parentNode.style.borderLeft = "4px solid green";
         const jobCard = this.closest(".job-card");
 
         const badge = jobCard.querySelector(".badge");
@@ -99,26 +140,44 @@ interviewButton.forEach(btn => {
             cntOfInterviews.innerText = value + 1;
             value = Number(cntOfRejects.innerText);
             if (badge.innerText === "REJECTED") cntOfRejects.innerText = value - 1;
+
+            badge.innerText = "INTERVIEW";
+            badge.classList.remove("badge-primary","badge-soft","badge-error","text-[#002C5C]","font-semibold","bg-red-500/20","text-red-1200");
+            badge.classList.add("badge-success","text-green-1200","font-bold","bg-green-500/20");
+
+            const interviewJobContainer = document.getElementById("interview-job-container");
+            let newChild = parentNode.cloneNode(true);
+            interviewJobContainer.appendChild(newChild);
+
         }
         
 
-        badge.innerText = "INTERVIEW";
 
-        badge.classList.remove("badge-primary","badge-soft");
-        badge.classList.add("badge-success");
-
-        badge.classList.remove("text-[#002C5C]","font-semibold");
-        badge.classList.add("text-green-1200","font-bold","bg-green-500/20");
 
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //Reject-btn Click
 const rejectButton = document.querySelectorAll(".reject-btn");
 
 rejectButton.forEach(btn => {
     btn.addEventListener("click", function () {
-        this.parentNode.parentNode.style.borderLeft = "4px solid red";
+        const parentNode = this.parentNode.parentNode;
+        parentNode.style.borderLeft = "4px solid red";
 
         const jobCard = this.closest(".job-card");
 
@@ -133,14 +192,12 @@ rejectButton.forEach(btn => {
             value = Number(cntOfInterviews.innerText);
             if (badge.innerText === "INTERVIEW") cntOfInterviews.innerText = value - 1;
 
+            badge.innerText = "REJECTED";
+            badge.classList.remove("badge-primary","badge-soft","badge-success","text-[#002C5C]","font-semibold","bg-green-500/20","text-green-1200");
+            badge.classList.add("badge-error","text-red-1200","font-bold","bg-red-500/20");
+
         }
-        badge.innerText = "REJECTED";
 
-        badge.classList.remove("badge-primary","badge-soft");
-        badge.classList.add("badge-error");
-
-        badge.classList.remove("text-[#002C5C]","font-semibold");
-        badge.classList.add("text-red-1200","font-bold","bg-red-500/20");
 
     });
 });
